@@ -10,7 +10,7 @@ import java.io.*;
 public class BinaryGuessPlayer implements Player
 {
 		
-	protected final String hairLength;
+/* 	protected final String hairLength;
 	protected final String glasses;
 	protected final String facialHair;
 	protected final String eyeColor;
@@ -18,7 +18,7 @@ public class BinaryGuessPlayer implements Player
 	protected final String hat;
 	protected final String hairColor;
 	protected final String noseShape;
-	protected final String faceShape;
+	protected final String faceShape; */
 
     /**
      * Loads the game configuration from gameFilename, and also store the chosen
@@ -35,6 +35,11 @@ public class BinaryGuessPlayer implements Player
         throws IOException
     {
 
+		
+		
+		
+		
+		
     } // end of BinaryGuessPlayer()
 
 

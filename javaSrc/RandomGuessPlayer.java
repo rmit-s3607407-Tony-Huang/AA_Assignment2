@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.*;
 /**
  * Random guessing player.
  * This player is for task B.
@@ -10,18 +10,22 @@ import java.io.*;
 public class RandomGuessPlayer implements Player
 {
 	
-	protected final PlayerAttributes choosenPlayer;
-	protected final ArrayList<PlayerAttributes> possiblePlayers;
-/* 	protected final ArrayList<String> hairLength;
-	protected final ArrayList<String> glasses;
-	protected final ArrayList<String> facialHair;
-	protected final ArrayList<String> eyeColor;
-	protected final ArrayList<String> pimples;
-	protected final ArrayList<String> hat;
-	protected final ArrayList<String> hairColor;
-	protected final ArrayList<String> noseShape;
-	protected final ArrayList<String> faceShape; */
+	protected PlayerAttributes chosenPlayer=null;
+	protected ArrayList<PlayerAttributes> possiblePlayers = new ArrayList<PlayerAttributes>();
 	
+	protected ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String>>();
+/* 	
+ 	protected final ArrayList<String> hairLength = new ArrayList<String>();
+	protected final ArrayList<String> glasses = new ArrayList<String>();
+	protected final ArrayList<String> facialHair = new ArrayList<String>();
+	protected final ArrayList<String> eyeColor = new ArrayList<String>();
+	protected final ArrayList<String> pimples = new ArrayList<String>();
+	protected final ArrayList<String> hat = new ArrayList<String>();
+	protected final ArrayList<String> hairColor = new ArrayList<String>();
+	protected final ArrayList<String> noseShape = new ArrayList<String>();
+	protected final ArrayList<String> faceShape = new ArrayList<String>();  */
+	
+
     /**
      * Loads the game configuration from gameFilename, and also store the chosen
      * person.
@@ -37,6 +41,64 @@ public class RandomGuessPlayer implements Player
         throws IOException
     {
 		
+		FileReader fr = new FileReader(gameFilename);
+		BufferedReader br = new BufferedReader(fr);
+		
+		String line;
+		String delimiters = " ";
+		boolean playerDetails = false;
+		
+		ArrayList<String> tempAttribute=new ArrayList<>();
+
+		
+
+		
+		
+		while((line=br.readLine()) != null){
+			String[] token = line.split(delimiters);
+			ArrayList<String> tempList = new ArrayList<String>();
+			
+			if(playerDetails==false){
+				if(token.length==1){
+					playerDetails=true;
+					
+				}
+				for (int i=0; i<token.length;i++){
+					tempList.add(token[i]);
+				}
+				attributes.add(tempList);
+
+			}
+			else{
+				if(line.equals("")){
+					PlayerAttributes tempPlayerAttribute= new PlayerAttributes(tempAttribute.get(0),tempAttribute.get(1),
+					tempAttribute.get(2),tempAttribute.get(3),tempAttribute.get(4),tempAttribute.get(5),
+					tempAttribute.get(6),tempAttribute.get(7),tempAttribute.get(8),tempAttribute.get(9));
+					
+					
+					possiblePlayers.add(tempPlayerAttribute);
+					tempAttribute.clear();
+					
+					//System.out.println(token.length);
+				}
+				else{
+					if(token.length==1){
+						tempAttribute.add(token[0]);
+					}
+					if(token.length==2){
+						tempAttribute.add(token[1]);
+					}
+				}
+			}
+		}
+		System.out.println("size1" +attributes.size());
+		System.out.println("size2" +possiblePlayers.size());
+		
+				
+		
+		
+/* 		chosenPlayer= new PlayerAttributes("P1","blue","green","white","brown","brown","blue","white","yellow","white");
+		System.out.println(chosenPlayer.getName());  */
 
     } // end of RandomGuessPlayer()
 
@@ -62,7 +124,7 @@ public class RandomGuessPlayer implements Player
     } // end of receiveAnswer()
 
  // end of class RandomGuessPlayer
-
+}
 	class PlayerAttributes{
 		
 		protected String name;
@@ -78,6 +140,7 @@ public class RandomGuessPlayer implements Player
 		
 		PlayerAttributes(String name, String hairLength, String glasses, String facialHair, String eyeColor, String pimples,
 		String hat, String hairColor, String noseShape, String faceShape){
+			this.name=name;
 			this.hairLength=hairLength;
 			this.glasses=glasses;
 			this.facialHair=facialHair;
@@ -88,7 +151,11 @@ public class RandomGuessPlayer implements Player
 			this.noseShape=noseShape;
 			this.faceShape=faceShape;
 		}
+		
+		public String getName(){
+			
+			return name;
+		}
 	}
 	
 
-}
