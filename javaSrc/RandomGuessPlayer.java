@@ -34,8 +34,8 @@ public class RandomGuessPlayer implements Player
 		// Read the input file
 		FileReader fr = new FileReader(gameFilename);
 		BufferedReader br = new BufferedReader(fr);
-		
-		String line;
+							
+		String line=null;
 		String delimiters = " ";
 		boolean playerDetails = false;
 		
@@ -44,6 +44,7 @@ public class RandomGuessPlayer implements Player
 
 		// Keep reading the file unitl we read the end
 		while((line=br.readLine()) != null){
+
 			String[] token = line.split(delimiters);
 			ArrayList<String> tempList = new ArrayList<String>();
 			
@@ -85,7 +86,15 @@ public class RandomGuessPlayer implements Player
 				}
 			}
 		}
-		//System.out.println(attributeValueSet.size());
+		PlayerAttributes tempPlayerAttribute= new PlayerAttributes(tempAttribute.get(0),tempAttribute.get(1),
+		tempAttribute.get(2),tempAttribute.get(3),tempAttribute.get(4),tempAttribute.get(5),
+		tempAttribute.get(6),tempAttribute.get(7),tempAttribute.get(8),tempAttribute.get(9));
+					
+		possiblePlayers.add(tempPlayerAttribute);
+		
+		System.out.println("Possible players" + possiblePlayers.size());
+		System.out.println("Attribute size" + attributes.size());
+		
 		// Determine the chosen player
 		for(int i=0;i<possiblePlayers.size();i++){
 			if(possiblePlayers.get(i).getName().equals(chosenName)){
@@ -122,7 +131,10 @@ public class RandomGuessPlayer implements Player
 			}
 			
 			for(int j=0;j<attributeValueSet.size();j++){
-				System.out.println(j + " " +attributeValueSet.get(j).getAttribute() + " " + attributeValueSet.get(j).getValue());
+				System.out.println((j+1) + " " +attributeValueSet.get(j).getAttribute() + " " + attributeValueSet.get(j).getValue());
+				if((j+1)%9==0){
+					System.out.println();
+				}
 			}
 			//System.out.println("size of set :"+attributeValueSet.size());
 		}
