@@ -12,18 +12,7 @@ public class RandomGuessPlayer implements Player
 	
 	protected PlayerAttributes chosenPlayer=null;
 	protected ArrayList<PlayerAttributes> possiblePlayers = new ArrayList<PlayerAttributes>();
-	
 	protected ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String>>();
-/* 	
- 	protected final ArrayList<String> hairLength = new ArrayList<String>();
-	protected final ArrayList<String> glasses = new ArrayList<String>();
-	protected final ArrayList<String> facialHair = new ArrayList<String>();
-	protected final ArrayList<String> eyeColor = new ArrayList<String>();
-	protected final ArrayList<String> pimples = new ArrayList<String>();
-	protected final ArrayList<String> hat = new ArrayList<String>();
-	protected final ArrayList<String> hairColor = new ArrayList<String>();
-	protected final ArrayList<String> noseShape = new ArrayList<String>();
-	protected final ArrayList<String> faceShape = new ArrayList<String>();  */
 	
 
     /**
@@ -40,7 +29,7 @@ public class RandomGuessPlayer implements Player
     public RandomGuessPlayer(String gameFilename, String chosenName)
         throws IOException
     {
-		
+		// Read the input file
 		FileReader fr = new FileReader(gameFilename);
 		BufferedReader br = new BufferedReader(fr);
 		
@@ -48,16 +37,15 @@ public class RandomGuessPlayer implements Player
 		String delimiters = " ";
 		boolean playerDetails = false;
 		
+		// have an arraylist that we can temp store all the attributes at the top of the config list.
 		ArrayList<String> tempAttribute=new ArrayList<>();
 
-		
-
-		
-		
+		// Keep reading the file unitl we read the end
 		while((line=br.readLine()) != null){
 			String[] token = line.split(delimiters);
 			ArrayList<String> tempList = new ArrayList<String>();
 			
+			// Store possible attributes
 			if(playerDetails==false){
 				if(token.length==1){
 					playerDetails=true;
@@ -69,7 +57,9 @@ public class RandomGuessPlayer implements Player
 				attributes.add(tempList);
 
 			}
+			// Store player attributes
 			else{
+				// if we have a blank new line, store the temp attributes to the given player and clear the buffer
 				if(line.equals("")){
 					PlayerAttributes tempPlayerAttribute= new PlayerAttributes(tempAttribute.get(0),tempAttribute.get(1),
 					tempAttribute.get(2),tempAttribute.get(3),tempAttribute.get(4),tempAttribute.get(5),
@@ -81,6 +71,7 @@ public class RandomGuessPlayer implements Player
 					
 					//System.out.println(token.length);
 				}
+				// else add the attributes to the tempAttribute list.
 				else{
 					if(token.length==1){
 						tempAttribute.add(token[0]);
@@ -91,14 +82,14 @@ public class RandomGuessPlayer implements Player
 				}
 			}
 		}
-		System.out.println("size1" +attributes.size());
-		System.out.println("size2" +possiblePlayers.size());
 		
-				
-		
-		
-/* 		chosenPlayer= new PlayerAttributes("P1","blue","green","white","brown","brown","blue","white","yellow","white");
-		System.out.println(chosenPlayer.getName());  */
+		// Determine the chosen player
+		for(int i=0;i<possiblePlayers.size();i++){
+			if(possiblePlayers.get(i).getName().equals(chosenName)){
+				System.out.println(possiblePlayers.get(i).getName());
+				chosenPlayer=possiblePlayers.get(i);
+			}
+		}
 
     } // end of RandomGuessPlayer()
 
@@ -156,6 +147,52 @@ public class RandomGuessPlayer implements Player
 			
 			return name;
 		}
+		
+		public String getHairLength(){
+			
+			return hairLength;
+		}
+		
+		public String getGlasses(){
+			
+			return glasses;
+		}
+		
+		public String getFacialHair(){
+			
+			return facialHair;
+		}
+		
+		public String getEyeColor(){
+			
+			return eyeColor;
+		}
+		
+		public String getPimples(){
+			
+			return pimples;
+		}
+		
+		public String getHat(){
+			
+			return hat;
+		}
+		
+		public String getHairColor(){
+			
+			return hairColor;
+		}
+		
+		public String getNoseShape(){
+			
+			return noseShape;
+		}
+		
+		public String getFaceShape(){
+			
+			return faceShape;
+		}
+		
 	}
 	
 
