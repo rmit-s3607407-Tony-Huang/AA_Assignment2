@@ -90,11 +90,6 @@ public class BinaryGuessPlayer implements Player
 				chosenPlayer=possiblePlayers.get(i);
 			}
 		}
-		
-		
-		
-		
-		
     } // end of BinaryGuessPlayer()
 
 

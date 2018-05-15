@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.math.*;
 /**
  * Random guessing player.
  * This player is for task B.
@@ -13,6 +14,7 @@ public class RandomGuessPlayer implements Player
 	protected PlayerAttributes chosenPlayer=null;
 	protected ArrayList<PlayerAttributes> possiblePlayers = new ArrayList<PlayerAttributes>();
 	protected ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String>>();
+	protected Set<AttributeValue> attributeValueSet = new LinkedHashSet<>();
 	
 
     /**
@@ -78,11 +80,12 @@ public class RandomGuessPlayer implements Player
 					}
 					if(token.length==2){
 						tempAttribute.add(token[1]);
+						attributeValueSet.add(new AttributeValue(token[0],token[1]));
 					}
 				}
 			}
 		}
-		
+		System.out.println(attributeValueSet.size());
 		// Determine the chosen player
 		for(int i=0;i<possiblePlayers.size();i++){
 			if(possiblePlayers.get(i).getName().equals(chosenName)){
@@ -95,6 +98,15 @@ public class RandomGuessPlayer implements Player
 
 
     public Guess guess() {
+		//if there is only one possible player left, guess that player
+		if(possiblePlayers.size()==1){
+			return new Guess(Guess.GuessType.Person, "",possiblePlayers.get(0).getName());
+		}
+		//otherwise guess from the remaining set
+		else{
+			int sizeSet=attributeValueSet.size();
+
+		}
 
         // placeholder, replace
         return new Guess(Guess.GuessType.Person, "", "Placeholder");
@@ -103,6 +115,19 @@ public class RandomGuessPlayer implements Player
 
     public boolean answer(Guess currGuess) {
 
+		
+		//Guess Person
+		if(currGuess.getType().equals(Guess.GuessType.Person)){
+			if(currGuess.getValue().equals(chosenPlayer.getName())){
+				return true;
+			}
+		}
+		//Guess Attribute
+		if(currGuess.getType().equals(Guess.GuessType.Attribute)){
+			String tempAttribute=currGuess.getAttribute();
+			
+			//if(chosenPlayer.)
+		}
         // placeholder, replace
         return false;
     } // end of answer()
@@ -114,6 +139,13 @@ public class RandomGuessPlayer implements Player
         return true;
     } // end of receiveAnswer()
 
+	public int RandomNumberGenerator(int n){
+	Random generator = new Random();
+	
+	return generator.nextInt(n)+1;
+}
  // end of class RandomGuessPlayer
 }
+
+
 	

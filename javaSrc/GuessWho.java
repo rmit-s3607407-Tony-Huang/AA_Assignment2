@@ -324,5 +324,26 @@ class PlayerAttributes{
 		
 }
 	
+	
+class AttributeValue{
+	
+	protected String attribute;
+	protected String value;
+	
+	AttributeValue(String attribute, String value){
+		this.attribute=attribute;
+		this.value=value;
+	}
+	
+	public String getAttribute(){
+		
+		return attribute;
+	}
+	
+	public String getValue(){
+		
+		return value;
+	}
+}
 
 
