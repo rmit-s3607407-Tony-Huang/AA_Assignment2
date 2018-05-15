@@ -14,7 +14,7 @@ public class RandomGuessPlayer implements Player
 	protected PlayerAttributes chosenPlayer=null;
 	protected ArrayList<PlayerAttributes> possiblePlayers = new ArrayList<PlayerAttributes>();
 	protected ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String>>();
-	protected Set<AttributeValue> attributeValueSet = new LinkedHashSet<>();
+	
 	
 
     /**
@@ -80,12 +80,12 @@ public class RandomGuessPlayer implements Player
 					}
 					if(token.length==2){
 						tempAttribute.add(token[1]);
-						attributeValueSet.add(new AttributeValue(token[0],token[1]));
+						//attributeValueSet.add(new AttributeValue(token[0],token[1]));
 					}
 				}
 			}
 		}
-		System.out.println(attributeValueSet.size());
+		//System.out.println(attributeValueSet.size());
 		// Determine the chosen player
 		for(int i=0;i<possiblePlayers.size();i++){
 			if(possiblePlayers.get(i).getName().equals(chosenName)){
@@ -98,15 +98,39 @@ public class RandomGuessPlayer implements Player
 
 
     public Guess guess() {
+		
+		//THIS PART IS STILL FUCKED
 		//if there is only one possible player left, guess that player
 		if(possiblePlayers.size()==1){
 			return new Guess(Guess.GuessType.Person, "",possiblePlayers.get(0).getName());
 		}
-		//otherwise guess from the remaining set
 		else{
+			//create the set
+			ArrayList<AttributeValue> attributeValueSet = new ArrayList<AttributeValue>();
+			
+			for(int i=0;i<possiblePlayers.size();i++){
+				attributeValueSet.add(new AttributeValue("hairlength", possiblePlayers.get(i).getHairLength()));
+				attributeValueSet.add(new AttributeValue("glasses", possiblePlayers.get(i).getGlasses()));
+				attributeValueSet.add(new AttributeValue("facialHair", possiblePlayers.get(i).getFacialHair()));
+				attributeValueSet.add(new AttributeValue("eyeColor", possiblePlayers.get(i).getEyeColor()));
+				attributeValueSet.add(new AttributeValue("pimples", possiblePlayers.get(i).getPimples()));
+				attributeValueSet.add(new AttributeValue("hat", possiblePlayers.get(i).getHat()));
+				attributeValueSet.add(new AttributeValue("hairColor", possiblePlayers.get(i).getHairColor()));
+				attributeValueSet.add(new AttributeValue("noseShape", possiblePlayers.get(i).getNoseShape()));
+				attributeValueSet.add(new AttributeValue("faceShape", possiblePlayers.get(i).getFaceShape()));
+				
+			}
+			
+			for(int j=0;j<attributeValueSet.size();j++){
+				System.out.println(j + " " +attributeValueSet.get(j).getAttribute() + " " + attributeValueSet.get(j).getValue());
+			}
+			//System.out.println("size of set :"+attributeValueSet.size());
+		}
+		//otherwise guess from the remaining set
+/* 		else{
 			int sizeSet=attributeValueSet.size();
 
-		}
+		} */
 
         // placeholder, replace
         return new Guess(Guess.GuessType.Person, "", "Placeholder");
@@ -140,10 +164,10 @@ public class RandomGuessPlayer implements Player
     } // end of receiveAnswer()
 
 	public int RandomNumberGenerator(int n){
-	Random generator = new Random();
-	
-	return generator.nextInt(n)+1;
-}
+		Random generator = new Random();
+		
+		return generator.nextInt(n)+1;
+	}
  // end of class RandomGuessPlayer
 }
 
