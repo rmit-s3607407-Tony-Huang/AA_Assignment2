@@ -14,6 +14,8 @@ public class BinaryGuessPlayer implements Player
 	protected PlayerAttributes chosenPlayer=null;
 	protected ArrayList<PlayerAttributes> possiblePlayers = new ArrayList<PlayerAttributes>();
 	protected ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String>>();
+	protected ArrayList<ArrayList<Integer>> attributeCount = new ArrayList<ArrayList<Integer>>();
+	
 
     /**
      * Loads the game configuration from gameFilename, and also store the chosen
@@ -29,11 +31,11 @@ public class BinaryGuessPlayer implements Player
     public BinaryGuessPlayer(String gameFilename, String chosenName)
         throws IOException
     {
-		// Read the input file
+// Read the input file
 		FileReader fr = new FileReader(gameFilename);
 		BufferedReader br = new BufferedReader(fr);
-		
-		String line;
+							
+		String line=null;
 		String delimiters = " ";
 		boolean playerDetails = false;
 		
@@ -42,24 +44,36 @@ public class BinaryGuessPlayer implements Player
 
 		// Keep reading the file unitl we read the end
 		while((line=br.readLine()) != null){
+
 			String[] token = line.split(delimiters);
 			ArrayList<String> tempList = new ArrayList<String>();
+			ArrayList<Integer> tempCount = new ArrayList<Integer>();
 			
-			// Store possible attributes
-			if(playerDetails==false){
-				if(token.length==1){
+			if(token.length==1){
 					playerDetails=true;
-					
-				}
+			}
+			else if(token.length!=1&&playerDetails==false){
 				for (int i=0; i<token.length;i++){
 					tempList.add(token[i]);
+					tempCount.add(0);
 				}
 				attributes.add(tempList);
-
+				attributeCount.add(tempCount);
 			}
 			// Store player attributes
 			else{
-				// if we have a blank new line, store the temp attributes to the given player and clear the buffer
+				
+				if(!line.equals("")){
+					if(token.length==1){
+						tempAttribute.add(token[0]);
+					}
+					if(token.length==2){
+						tempAttribute.add(token[1]);
+						//attributeValueSet.add(new AttributeValue(token[0],token[1]));
+					}
+					
+				}
+				
 				if(line.equals("")){
 					PlayerAttributes tempPlayerAttribute= new PlayerAttributes(tempAttribute.get(0),tempAttribute.get(1),
 					tempAttribute.get(2),tempAttribute.get(3),tempAttribute.get(4),tempAttribute.get(5),
@@ -69,19 +83,17 @@ public class BinaryGuessPlayer implements Player
 					possiblePlayers.add(tempPlayerAttribute);
 					tempAttribute.clear();
 					
-					//System.out.println(token.length);
-				}
-				// else add the attributes to the tempAttribute list.
-				else{
-					if(token.length==1){
-						tempAttribute.add(token[0]);
-					}
-					if(token.length==2){
-						tempAttribute.add(token[1]);
-					}
 				}
 			}
 		}
+		PlayerAttributes tempPlayerAttribute= new PlayerAttributes(tempAttribute.get(0),tempAttribute.get(1),
+		tempAttribute.get(2),tempAttribute.get(3),tempAttribute.get(4),tempAttribute.get(5),
+		tempAttribute.get(6),tempAttribute.get(7),tempAttribute.get(8),tempAttribute.get(9));
+					
+		possiblePlayers.add(tempPlayerAttribute);
+		
+		System.out.println("Possible players" + possiblePlayers.size());
+		System.out.println("Attribute size" + attributes.size());
 		
 		// Determine the chosen player
 		for(int i=0;i<possiblePlayers.size();i++){
@@ -89,6 +101,14 @@ public class BinaryGuessPlayer implements Player
 				System.out.println(possiblePlayers.get(i).getName());
 				chosenPlayer=possiblePlayers.get(i);
 			}
+		}
+		
+		for(int i=0;i<attributeCount.size();i++){
+			for(int j=0;j<attributeCount.get(i).size();j++){
+				System.out.print(attributeCount.get(i).get(j));
+			}
+			System.out.println();
+			
 		}
     } // end of BinaryGuessPlayer()
 
@@ -103,14 +123,14 @@ public class BinaryGuessPlayer implements Player
 	public boolean answer(Guess currGuess) {
 
         // placeholder, replace
-        return false;
+        return true;
     } // end of answer()
 
 
 	public boolean receiveAnswer(Guess currGuess, boolean answer) {
 
         // placeholder, replace
-        return true;
+        return false;
     } // end of receiveAnswer()
 
 } // end of class BinaryGuessPlayer

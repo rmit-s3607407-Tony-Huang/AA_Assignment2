@@ -48,6 +48,7 @@ public class RandomGuessPlayer implements Player
 			String[] token = line.split(delimiters);
 			ArrayList<String> tempList = new ArrayList<String>();
 			
+			
 			// Store possible attributes
 			if(playerDetails==false){
 				if(token.length==1){
@@ -102,7 +103,13 @@ public class RandomGuessPlayer implements Player
 				chosenPlayer=possiblePlayers.get(i);
 			}
 		}
-
+		for(int i=0;i<attributes.size();i++){
+			for(int j=0;j<attributes.get(i).size();j++){
+				System.out.print(attributes.get(i).get(j));
+			}
+			System.out.println();
+			
+		}
     } // end of RandomGuessPlayer()
 
 
@@ -396,13 +403,13 @@ public class RandomGuessPlayer implements Player
 		}
         return false;
     } // end of receiveAnswer()
-
+	
 	public int randomNumberGenerator(int n){
 		Random generator = new Random();
 		
 		return generator.nextInt(n);
 	}
-	
+
 	public int indexFinder(String tempAttribute){
 		
 		for(int index=0;index<attributes.size();index++){
@@ -412,8 +419,6 @@ public class RandomGuessPlayer implements Player
 		}
 		return -1;
 	}
-	
-
  // end of class RandomGuessPlayer
 }
 
