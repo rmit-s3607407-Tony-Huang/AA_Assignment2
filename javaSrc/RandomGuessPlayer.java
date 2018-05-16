@@ -62,7 +62,18 @@ public class RandomGuessPlayer implements Player
 			}
 			// Store player attributes
 			else{
-				// if we have a blank new line, store the temp attributes to the given player and clear the buffer
+				
+				if(!line.equals("")){
+					if(token.length==1){
+						tempAttribute.add(token[0]);
+					}
+					if(token.length==2){
+						tempAttribute.add(token[1]);
+						//attributeValueSet.add(new AttributeValue(token[0],token[1]));
+					}
+					
+				}
+				
 				if(line.equals("")){
 					PlayerAttributes tempPlayerAttribute= new PlayerAttributes(tempAttribute.get(0),tempAttribute.get(1),
 					tempAttribute.get(2),tempAttribute.get(3),tempAttribute.get(4),tempAttribute.get(5),
@@ -72,17 +83,6 @@ public class RandomGuessPlayer implements Player
 					possiblePlayers.add(tempPlayerAttribute);
 					tempAttribute.clear();
 					
-					//System.out.println(token.length);
-				}
-				// else add the attributes to the tempAttribute list.
-				else{
-					if(token.length==1){
-						tempAttribute.add(token[0]);
-					}
-					if(token.length==2){
-						tempAttribute.add(token[1]);
-						//attributeValueSet.add(new AttributeValue(token[0],token[1]));
-					}
 				}
 			}
 		}
@@ -126,32 +126,23 @@ public class RandomGuessPlayer implements Player
 				attributeValueSet.add(new AttributeValue("hat", possiblePlayers.get(i).getHat()));
 				attributeValueSet.add(new AttributeValue("hairColor", possiblePlayers.get(i).getHairColor()));
 				attributeValueSet.add(new AttributeValue("noseShape", possiblePlayers.get(i).getNoseShape()));
-				attributeValueSet.add(new AttributeValue("faceShape", possiblePlayers.get(i).getFaceShape()));
-				
+				attributeValueSet.add(new AttributeValue("faceShape", possiblePlayers.get(i).getFaceShape()));				
 			}
-			
+/* 			
 			for(int j=0;j<attributeValueSet.size();j++){
 				System.out.println((j+1) + " " +attributeValueSet.get(j).getAttribute() + " " + attributeValueSet.get(j).getValue());
 				if((j+1)%9==0){
 					System.out.println();
 				}
-			}
-			//System.out.println("size of set :"+attributeValueSet.size());
+			} */
+			int randInt=randomNumberGenerator(attributeValueSet.size());
+			System.out.println(randInt);
+			return new Guess(Guess.GuessType.Attribute,attributeValueSet.get(randInt).getAttribute(),attributeValueSet.get(randInt).getValue());
 		}
-		//otherwise guess from the remaining set
-/* 		else{
-			int sizeSet=attributeValueSet.size();
-
-		} */
-
-        // placeholder, replace
-        return new Guess(Guess.GuessType.Person, "", "Placeholder");
     } // end of guess()
 
 
     public boolean answer(Guess currGuess) {
-
-		
 		//Guess Person
 		if(currGuess.getType().equals(Guess.GuessType.Person)){
 			if(currGuess.getValue().equals(chosenPlayer.getName())){
@@ -161,25 +152,268 @@ public class RandomGuessPlayer implements Player
 		//Guess Attribute
 		if(currGuess.getType().equals(Guess.GuessType.Attribute)){
 			String tempAttribute=currGuess.getAttribute();
+			String tempValue=currGuess.getValue();
 			
-			//if(chosenPlayer.)
+			int index=indexFinder(tempAttribute);
+			switch(index){
+				case 0:
+					if(chosenPlayer.getHairLength().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getHairLength());
+						return true;
+					}
+					break;
+				case 1:
+					if(chosenPlayer.getGlasses().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getGlasses());
+						return true;
+					}
+					break;
+				case 2:
+					if(chosenPlayer.getFacialHair().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getFacialHair());
+						return true;
+					}
+					break;
+				case 3:
+					if(chosenPlayer.getEyeColor().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getEyeColor());
+						return true;
+					}
+					break;
+				case 4:
+					if(chosenPlayer.getPimples().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getPimples());
+						return true;
+					}
+					break;
+				case 5:
+					if(chosenPlayer.getHat().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getHat());
+						return true;
+					}
+					break;
+				case 6:
+					if(chosenPlayer.getHairColor().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getHairColor());
+						return true;
+					}
+					break;
+				case 7:
+					if(chosenPlayer.getNoseShape().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getNoseShape());
+						return true;
+					}
+					break;
+				case 8:
+					if(chosenPlayer.getFaceShape().equals(tempValue)){
+						System.out.println("Chosen : " +chosenPlayer.getFaceShape());
+						return true;
+					}
+					break;
+				default:
+					break;
+				
+			}
 		}
-        // placeholder, replace
-        return false;
+		return false;
     } // end of answer()
 
 
 	public boolean receiveAnswer(Guess currGuess, boolean answer) {
-
-        // placeholder, replace
-        return true;
+		
+		if(currGuess.getType().equals(Guess.GuessType.Person)){
+			if(answer){
+				 
+				return true;
+			}
+		}
+		else{
+			ArrayList<PlayerAttributes> tempPossiblePlayers = new ArrayList<PlayerAttributes>();
+			String tempAttribute=currGuess.getAttribute();
+			String tempValue=currGuess.getValue();
+			
+			int index=indexFinder(tempAttribute);
+			switch(index){
+				case 0:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getHairLength().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getHairLength().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+					
+				case 1:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getGlasses().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getGlasses().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+					
+				case 2:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getFacialHair().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getFacialHair().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				case 3:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getEyeColor().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getEyeColor().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				case 4:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getPimples().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getPimples().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				case 5:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getHat().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getHat().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				case 6:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getHairColor().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getHairColor().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				case 7:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getNoseShape().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getNoseShape().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				case 8:
+					if(answer){
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(possiblePlayers.get(i).getFaceShape().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					else{
+						for(int i=0;i<possiblePlayers.size();i++){
+							if(!possiblePlayers.get(i).getFaceShape().equals(tempValue)){
+								tempPossiblePlayers.add(possiblePlayers.get(i));
+							}
+						}
+					}
+					possiblePlayers=tempPossiblePlayers;
+					break;
+				default:
+					break;
+			}
+			
+		}
+        return false;
     } // end of receiveAnswer()
 
-	public int RandomNumberGenerator(int n){
+	public int randomNumberGenerator(int n){
 		Random generator = new Random();
 		
-		return generator.nextInt(n)+1;
+		return generator.nextInt(n);
 	}
+	
+	public int indexFinder(String tempAttribute){
+		
+		for(int index=0;index<attributes.size();index++){
+			if(tempAttribute.equals(attributes.get(index).get(0))){
+				return index;
+			}
+		}
+		return -1;
+	}
+	
+
  // end of class RandomGuessPlayer
 }
 
