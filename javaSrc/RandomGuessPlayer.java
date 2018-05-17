@@ -103,11 +103,14 @@ public class RandomGuessPlayer implements Player
 		System.out.println("Attribute size" + attributes.size()); */
 		
 		// Determine the chosen player
+		int index=0;
 		for(int i=0;i<possiblePlayers.size();i++){
 			if(possiblePlayers.get(i).getName().equals(chosenName)){
 				chosenPlayer=possiblePlayers.get(i);
+				index=i;
 			}
 		}
+		possiblePlayers.remove(index);
 /* 		for(int i=0;i<attributes.size();i++){
 			for(int j=0;j<attributes.get(i).size();j++){
 				System.out.print(attributes.get(i).get(j));

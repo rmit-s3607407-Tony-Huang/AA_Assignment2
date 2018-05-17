@@ -95,12 +95,14 @@ public class BinaryGuessPlayer implements Player
 		System.out.println("Attribute size" + attributes.size()); */
 		
 		// Determine the chosen player
+		int index=0;
 		for(int i=0;i<possiblePlayers.size();i++){
 			if(possiblePlayers.get(i).getName().equals(chosenName)){
 				chosenPlayer=possiblePlayers.get(i);
+				index=i;
 			}
 		}
-		
+		possiblePlayers.remove(index);
 /* 		for(int i=0;i<attributeCount.size();i++){
 			for(int j=0;j<attributeCount.get(i).size();j++){
 				System.out.print(attributeCount.get(i).get(j));
@@ -229,19 +231,11 @@ public class BinaryGuessPlayer implements Player
 	}
 	
 	public int[] findMedianCount(){
-		int medium=possiblePlayers.size()/2;
+		double medium=Math.floor(possiblePlayers.size()*0.5);
 		
 		for(int i=0;i<attributeCount.size();i++){
 			for(int j=0;j<attributeCount.get(i).size();j++){
 				if(attributeCount.get(i).get(j)==medium){
-					int[] i_j={i,j};
-					return i_j;
-				}
-			}
-		}
-		for(int i=0;i<attributeCount.size();i++){
-			for(int j=0;j<attributeCount.get(i).size();j++){
-				if(attributeCount.get(i).get(j)==medium-1){
 					int[] i_j={i,j};
 					return i_j;
 				}
@@ -254,10 +248,18 @@ public class BinaryGuessPlayer implements Player
 					return i_j;
 				}
 			}
+		}
+		for(int i=0;i<attributeCount.size();i++){
+			for(int j=0;j<attributeCount.get(i).size();j++){
+				if(attributeCount.get(i).get(j)==medium-1){
+					int[] i_j={i,j};
+					return i_j;
+				}
+			}
 		}		
 		for(int i=0;i<attributeCount.size();i++){
 			for(int j=0;j<attributeCount.get(i).size();j++){
-				if(attributeCount.get(i).get(j)==medium-2){
+				if(attributeCount.get(i).get(j)==medium+2){
 					int[] i_j={i,j};
 					return i_j;
 				}
@@ -265,7 +267,7 @@ public class BinaryGuessPlayer implements Player
 		}
 		for(int i=0;i<attributeCount.size();i++){
 			for(int j=0;j<attributeCount.get(i).size();j++){
-				if(attributeCount.get(i).get(j)==medium+2){
+				if(attributeCount.get(i).get(j)==medium-2){
 					int[] i_j={i,j};
 					return i_j;
 				}
