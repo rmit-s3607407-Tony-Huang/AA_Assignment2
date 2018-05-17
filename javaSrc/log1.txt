@@ -1,31 +1,16 @@
 Round 1
 Player 1 guessing Attribute faceShape white
-Player 2 answering true
-Player 2 guessing Person  Placeholder
+Player 2 answering false
+Player 2 guessing Attribute noseShape white
 Player 1 answering false
 Round 2
-Player 1 guessing Attribute faceShape white
+Player 1 guessing Attribute facialHair white
 Player 2 answering true
-Player 2 guessing Person  Placeholder
+Player 2 guessing Attribute facialHair white
 Player 1 answering false
 Round 3
-Player 1 guessing Attribute eyeColor brown
+Player 1 guessing Person  P5
 Player 2 answering true
-Player 2 guessing Person  Placeholder
-Player 1 answering false
-Round 4
-Player 1 guessing Attribute pimples brown
-Player 2 answering true
-Player 2 guessing Person  Placeholder
-Player 1 answering false
-Round 5
-Player 1 guessing Attribute facialHair yellow
-Player 2 answering true
-Player 2 guessing Person  Placeholder
-Player 1 answering false
-Round 6
-Player 1 guessing Person  P10
-Player 2 answering true
-Player 2 guessing Person  Placeholder
+Player 2 guessing Attribute hairLength yellow
 Player 1 answering false
 Player 1 won!

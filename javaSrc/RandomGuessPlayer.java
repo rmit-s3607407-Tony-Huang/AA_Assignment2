@@ -10,13 +10,10 @@ import java.math.*;
  */
 public class RandomGuessPlayer implements Player
 {
-	
 	protected PlayerAttributes chosenPlayer=null;
 	protected ArrayList<PlayerAttributes> possiblePlayers = new ArrayList<PlayerAttributes>();
 	protected ArrayList<ArrayList<String>> attributes = new ArrayList<ArrayList<String>>();
 	
-	
-
     /**
      * Loads the game configuration from gameFilename, and also store the chosen
      * person.
@@ -49,7 +46,7 @@ public class RandomGuessPlayer implements Player
 			ArrayList<String> tempList = new ArrayList<String>();
 			
 			
-			// Store possible attributes
+/* 			// Store possible attributes
 			if(playerDetails==false){
 				if(token.length==1){
 					playerDetails=true;
@@ -61,7 +58,16 @@ public class RandomGuessPlayer implements Player
 				attributes.add(tempList);
 
 			}
-			// Store player attributes
+			// Store player attributes */
+			if(token.length==1&&playerDetails==false){
+					playerDetails=true;
+			}
+			else if(token.length!=1&&playerDetails==false){
+				for (int i=0; i<token.length;i++){
+					tempList.add(token[i]);
+				}
+				attributes.add(tempList);
+			}
 			else{
 				
 				if(!line.equals("")){
@@ -93,29 +99,27 @@ public class RandomGuessPlayer implements Player
 					
 		possiblePlayers.add(tempPlayerAttribute);
 		
-		System.out.println("Possible players" + possiblePlayers.size());
-		System.out.println("Attribute size" + attributes.size());
+/* 		System.out.println("Possible players" + possiblePlayers.size());
+		System.out.println("Attribute size" + attributes.size()); */
 		
 		// Determine the chosen player
 		for(int i=0;i<possiblePlayers.size();i++){
 			if(possiblePlayers.get(i).getName().equals(chosenName)){
-				System.out.println(possiblePlayers.get(i).getName());
 				chosenPlayer=possiblePlayers.get(i);
 			}
 		}
-		for(int i=0;i<attributes.size();i++){
+/* 		for(int i=0;i<attributes.size();i++){
 			for(int j=0;j<attributes.get(i).size();j++){
 				System.out.print(attributes.get(i).get(j));
 			}
 			System.out.println();
 			
-		}
+		} */
     } // end of RandomGuessPlayer()
 
 
     public Guess guess() {
 		
-		//THIS PART IS STILL FUCKED
 		//if there is only one possible player left, guess that player
 		if(possiblePlayers.size()==1){
 			return new Guess(Guess.GuessType.Person, "",possiblePlayers.get(0).getName());
@@ -143,7 +147,6 @@ public class RandomGuessPlayer implements Player
 				}
 			} */
 			int randInt=randomNumberGenerator(attributeValueSet.size());
-			System.out.println(randInt);
 			return new Guess(Guess.GuessType.Attribute,attributeValueSet.get(randInt).getAttribute(),attributeValueSet.get(randInt).getValue());
 		}
     } // end of guess()
@@ -165,55 +168,55 @@ public class RandomGuessPlayer implements Player
 			switch(index){
 				case 0:
 					if(chosenPlayer.getHairLength().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getHairLength());
+						//System.out.println("Chosen : " +chosenPlayer.getHairLength());
 						return true;
 					}
 					break;
 				case 1:
 					if(chosenPlayer.getGlasses().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getGlasses());
+						//System.out.println("Chosen : " +chosenPlayer.getGlasses());
 						return true;
 					}
 					break;
 				case 2:
 					if(chosenPlayer.getFacialHair().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getFacialHair());
+						//System.out.println("Chosen : " +chosenPlayer.getFacialHair());
 						return true;
 					}
 					break;
 				case 3:
 					if(chosenPlayer.getEyeColor().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getEyeColor());
+						//System.out.println("Chosen : " +chosenPlayer.getEyeColor());
 						return true;
 					}
 					break;
 				case 4:
 					if(chosenPlayer.getPimples().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getPimples());
+						//System.out.println("Chosen : " +chosenPlayer.getPimples());
 						return true;
 					}
 					break;
 				case 5:
 					if(chosenPlayer.getHat().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getHat());
+						//System.out.println("Chosen : " +chosenPlayer.getHat());
 						return true;
 					}
 					break;
 				case 6:
 					if(chosenPlayer.getHairColor().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getHairColor());
+						//System.out.println("Chosen : " +chosenPlayer.getHairColor());
 						return true;
 					}
 					break;
 				case 7:
 					if(chosenPlayer.getNoseShape().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getNoseShape());
+						//System.out.println("Chosen : " +chosenPlayer.getNoseShape());
 						return true;
 					}
 					break;
 				case 8:
 					if(chosenPlayer.getFaceShape().equals(tempValue)){
-						System.out.println("Chosen : " +chosenPlayer.getFaceShape());
+						//System.out.println("Chosen : " +chosenPlayer.getFaceShape());
 						return true;
 					}
 					break;
@@ -256,7 +259,7 @@ public class RandomGuessPlayer implements Player
 							}
 						}
 					}
-					possiblePlayers=tempPossiblePlayers;
+					possiblePlayers=tempPossiblePlayers;					
 					break;
 					
 				case 1:
@@ -401,6 +404,11 @@ public class RandomGuessPlayer implements Player
 			}
 			
 		}
+		System.out.print("Random:");
+		for(int i=0;i<possiblePlayers.size();i++){
+			System.out.print(" " + possiblePlayers.get(i).getName());
+		}
+		System.out.println();		System.out.println();
         return false;
     } // end of receiveAnswer()
 	
